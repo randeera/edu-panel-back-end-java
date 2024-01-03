@@ -13,7 +13,7 @@ public interface LinkedInRepository {
 
     void deleteLinkedInByLecturer(Lecturer lecturer);
 
-    void existsLinkedInByLecturer(Lecturer lecturer);
+    boolean existsLinkedInByLecturer(Lecturer lecturer);
 
     LinkedIn findLinkedInByLecturer(Lecturer lecturer);
 
