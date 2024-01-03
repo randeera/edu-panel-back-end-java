@@ -15,7 +15,6 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -27,11 +26,11 @@ public class WebAppConfig implements WebMvcConfigurer {
     @Bean
     public Bucket defaultBucket() throws IOException {
         InputStream serviceAccount =
-                new ClassPathResource("/edupanel-29257-firebase-adminsdk-k4d91-1ab8aaad13.json").getInputStream();
+                new ClassPathResource("/firebase.json").getInputStream();
 
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                .setStorageBucket("edupanel-29257.appspot.com")
+                .setStorageBucket("edupanel-efb2b.appspot.com")
                 .build();
 
         FirebaseApp.initializeApp(options);
