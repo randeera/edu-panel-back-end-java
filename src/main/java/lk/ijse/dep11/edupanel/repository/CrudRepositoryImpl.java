@@ -1,17 +1,22 @@
 package lk.ijse.dep11.edupanel.repository;
 
-import lk.ijse.dep11.edupanel.entity.Lecturer;
 import lk.ijse.dep11.edupanel.entity.SuperEntity;
 
 import javax.persistence.EntityManager;
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Optional;
 
 public class CrudRepositoryImpl<T extends SuperEntity, ID extends Serializable>
-        implements CrudRepository<T, ID>{
+        implements CrudRepository<T, ID> {
 
     private EntityManager em;
+    private Class<T> entityClzObj;
+
+    public CrudRepositoryImpl() {
+        entityClzObj = (Class<T>)(((ParameterizedType)(this.getClass().getGenericSuperclass())).getActualTypeArguments()[0]);
+    }
 
     @Override
     public void setEntityManager(EntityManager em) {
@@ -31,7 +36,7 @@ public class CrudRepositoryImpl<T extends SuperEntity, ID extends Serializable>
 
     @Override
     public void deleteById(ID pk) {
-        em.remove(em.find(T.class, pk));
+        em.remove(em.find(entityClzObj, pk));
     }
 
     @Override
@@ -41,16 +46,16 @@ public class CrudRepositoryImpl<T extends SuperEntity, ID extends Serializable>
 
     @Override
     public Optional<T> findById(ID pk) {
-        return Optional.ofNullable(em.find(T.class, pk));
+        return Optional.ofNullable(em.find(entityClzObj, pk));
     }
 
     @Override
     public List<T> findAll() {
-        return em.createQuery("SELECT e FROM T e", T.class).getResultList();
+        return em.createQuery("SELECT e FROM " + entityClzObj.getName() + " e", entityClzObj).getResultList();
     }
 
     @Override
     public long count() {
-        return em.createQuery("SELECT COUNT(e) FROM T e", Long.class).getSingleResult();
+        return em.createQuery("SELECT COUNT(e) FROM " + entityClzObj.getName() + " e", Long.class).getSingleResult();
     }
 }
