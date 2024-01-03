@@ -8,19 +8,25 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Optional;
 
-public class CrudRepositoryImpl<T extends SuperEntity, ID extends Serializable>
+public abstract class CrudRepositoryImpl<T extends SuperEntity, ID extends Serializable>
         implements CrudRepository<T, ID> {
 
     private EntityManager em;
-    private Class<T> entityClzObj;
+    private final Class<T> entityClzObj;
 
     public CrudRepositoryImpl() {
-        entityClzObj = (Class<T>)(((ParameterizedType)(this.getClass().getGenericSuperclass())).getActualTypeArguments()[0]);
+        entityClzObj = (Class<T>)(((ParameterizedType)(this.getClass().getGenericSuperclass()))
+                .getActualTypeArguments()[0]);
     }
 
     @Override
     public void setEntityManager(EntityManager em) {
         this.em = em;
+    }
+
+    @Override
+    public EntityManager getEntityManager() {
+        return em;
     }
 
     @Override
