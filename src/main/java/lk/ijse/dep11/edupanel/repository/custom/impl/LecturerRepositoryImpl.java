@@ -19,34 +19,34 @@ public class LecturerRepositoryImpl implements LecturerRepository {
     }
 
     @Override
-    public SuperEntity save(SuperEntity entity) {
+    public Lecturer save(Lecturer entity) {
         em.persist(entity);
         return entity;
     }
 
     @Override
-    public void update(SuperEntity entity) {
+    public void update(Lecturer entity) {
         em.merge(entity);
     }
 
     @Override
-    public void deleteById(Serializable pk) {
+    public void deleteById(Integer pk) {
         em.remove(em.find(Lecturer.class, pk));
     }
 
     @Override
-    public boolean existsById(Serializable pk) {
-        return em.find(Lecturer.class, pk) != null;
+    public boolean existsById(Integer pk) {
+        return findById(pk).isPresent();
     }
 
     @Override
-    public Optional<SuperEntity> findById(Serializable pk) {
+    public Optional<Lecturer> findById(Integer pk) {
         return Optional.ofNullable(em.find(Lecturer.class, pk));
     }
 
     @Override
-    public List<SuperEntity> findAll() {
-        return em.createQuery("SELECT l FROM Lecturer l").getResultList();
+    public List<Lecturer> findAll() {
+        return em.createQuery("SELECT l FROM Lecturer l", Lecturer.class).getResultList();
     }
 
     @Override

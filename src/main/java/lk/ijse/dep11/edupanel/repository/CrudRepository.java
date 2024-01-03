@@ -6,18 +6,18 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-public interface CrudRepository extends SuperRepository {
-    SuperEntity save(SuperEntity entity);
+public interface CrudRepository<T extends SuperEntity, ID extends Serializable> extends SuperRepository {
+    T save(T entity);
 
-    void update(SuperEntity entity);
+    void update(T entity);
 
-    void deleteById(Serializable pk);
+    void deleteById(ID pk);
 
-    boolean existsById(Serializable pk);
+    boolean existsById(ID pk);
 
-    Optional<SuperEntity> findById(Serializable pk);
+    Optional<T> findById(ID pk);
 
-    List<SuperEntity> findAll();
+    List<T> findAll();
 
     long count();
 }
