@@ -5,6 +5,7 @@ import com.google.cloud.storage.Storage;
 import lk.ijse.dep11.edupanel.entity.Lecturer;
 import lk.ijse.dep11.edupanel.entity.LinkedIn;
 import lk.ijse.dep11.edupanel.entity.Picture;
+import lk.ijse.dep11.edupanel.exception.AppException;
 import lk.ijse.dep11.edupanel.repository.RepositoryFactory;
 import lk.ijse.dep11.edupanel.repository.custom.LecturerRepository;
 import lk.ijse.dep11.edupanel.repository.custom.LinkedInRepository;
@@ -21,11 +22,11 @@ import java.util.concurrent.TimeUnit;
 
 public class LecturerServiceImpl implements LecturerService {
 
-    private final LecturerRepository lecturerRepository = RepositoryFactory.getInstance()
+    private LecturerRepository lecturerRepository = RepositoryFactory.getInstance()
             .getRepository(RepositoryFactory.RepositoryType.LECTURER);
-    private final LinkedInRepository linkedInRepository = RepositoryFactory.getInstance()
+    private LinkedInRepository linkedInRepository = RepositoryFactory.getInstance()
             .getRepository(RepositoryFactory.RepositoryType.LINKEDIN);
-    private final PictureRepository pictureRepository = RepositoryFactory.getInstance()
+    private PictureRepository pictureRepository = RepositoryFactory.getInstance()
             .getRepository(RepositoryFactory.RepositoryType.PICTURE);
     private final Transformer transformer = new Transformer();
 
@@ -40,10 +41,10 @@ public class LecturerServiceImpl implements LecturerService {
         AppStore.getEntityManager().getTransaction().begin();
         try {
             Lecturer lecturer = transformer.fromLecturerReqTO(lecturerReqTO);
-            lecturer = lecturerRepository.save(lecturer);
+            lecturerRepository.save(lecturer);
 
             if (lecturerReqTO.getLinkedin() != null) {
-                linkedInRepository.save(new LinkedIn(lecturer, lecturerReqTO.getLinkedin()));
+                linkedInRepository.save(lecturer.getLinkedIn());
             }
 
             String signUrl = null;
@@ -62,7 +63,7 @@ public class LecturerServiceImpl implements LecturerService {
             return lecturerTO;
         }catch (Throwable t){
             AppStore.getEntityManager().getTransaction().rollback();
-            throw t;
+            throw new AppException(500, "Failed to save the lecturer", t);
         }
     }
 

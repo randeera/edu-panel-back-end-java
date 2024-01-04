@@ -3,9 +3,11 @@ package lk.ijse.dep11.edupanel.service.util;
 import com.google.rpc.Help;
 import lk.ijse.dep11.edupanel.entity.Lecturer;
 import lk.ijse.dep11.edupanel.entity.LinkedIn;
+import lk.ijse.dep11.edupanel.entity.Picture;
 import lk.ijse.dep11.edupanel.to.LecturerTO;
 import lk.ijse.dep11.edupanel.to.request.LecturerReqTO;
 import org.modelmapper.ModelMapper;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,27 +24,22 @@ public class Transformer {
 //                        lecturer.getLinkedIn().setUrl((String) o));
 
         mapper.typeMap(LinkedIn.class, String.class)
-                .setConverter(ctx -> ctx.getSource().getUrl());
+                .setConverter(ctx -> ctx.getSource() != null ?  ctx.getSource().getUrl() : null);
+        mapper.typeMap(MultipartFile.class, Picture.class)
+                        .setConverter(ctx -> null);
         mapper.typeMap(String.class, LinkedIn.class)
-                .setConverter(ctx -> new LinkedIn(null, ctx.getSource()));
+                .setConverter(ctx -> ctx.getSource() != null ? new LinkedIn(null, ctx.getSource()) : null);
     }
 
     public Lecturer fromLecturerReqTO(LecturerReqTO lecturerReqTO){
         Lecturer lecturer = mapper.map(lecturerReqTO, Lecturer.class);
-        if (lecturerReqTO.getLinkedin() == null){
-            lecturer.setLinkedIn(null);
-        }else{
-            lecturer.getLinkedIn().setLecturer(lecturer);
-        }
-        if (lecturerReqTO.getPicture() == null || lecturerReqTO.getPicture().isEmpty())
-                lecturer.setPicture(null);
-
+        if (lecturerReqTO.getLinkedin() != null) lecturer.getLinkedIn().setLecturer(lecturer);
         return lecturer;
     }
 
     public Lecturer fromLecturerTO(LecturerTO lecturerTO){
         Lecturer lecturer = mapper.map(lecturerTO, Lecturer.class);
-        lecturer.getLinkedIn().setLecturer(lecturer);
+        if (lecturerTO.getLinkedin() != null) lecturer.getLinkedIn().setLecturer(lecturer);
         return lecturer;
     }
 

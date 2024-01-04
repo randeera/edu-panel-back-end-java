@@ -1,5 +1,8 @@
 package lk.ijse.dep11.edupanel.service.custom;
 
+import lk.ijse.dep11.edupanel.repository.custom.LecturerRepository;
+import lk.ijse.dep11.edupanel.repository.custom.LinkedInRepository;
+import lk.ijse.dep11.edupanel.repository.custom.PictureRepository;
 import lk.ijse.dep11.edupanel.service.SuperService;
 import lk.ijse.dep11.edupanel.to.LecturerTO;
 import lk.ijse.dep11.edupanel.to.request.LecturerReqTO;
@@ -9,6 +12,10 @@ import org.w3c.dom.stylesheets.LinkStyle;
 import java.util.List;
 
 public interface LecturerService extends SuperService {
+
+//    void setPictureRepository(PictureRepository pictureRepository);
+//    void setLinkedInRepository(LinkedInRepository linkedInRepository);
+//    void setLecturerRepository(LecturerRepository lecturerRepository);
 
     LecturerTO saveLecturer(LecturerReqTO lecturerReqTO);
 
