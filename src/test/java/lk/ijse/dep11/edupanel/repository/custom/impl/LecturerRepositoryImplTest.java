@@ -49,14 +49,46 @@ class LecturerRepositoryImplTest {
 
     @Test
     void update() {
+        Lecturer lecturer = new Lecturer("Kasun Sampath",
+                "Senior Trainer",
+                "BSc (Hons) in Computing",
+                LecturerType.FULL_TIME,
+                0);
+        Lecturer savedLecturer = repository.save(lecturer);
+        savedLecturer.setName("Nuwan Ramindu");
+        savedLecturer.setQualifications("DEP");
+        savedLecturer.setType(LecturerType.VISITING);
+        repository.update(savedLecturer);
+
+        Lecturer actualLecturer = entityManager.find(Lecturer.class, savedLecturer.getId());
+        assertEquals(savedLecturer, actualLecturer);
     }
 
     @Test
     void deleteById() {
+        Lecturer lecturer = new Lecturer("Kasun Sampath",
+                "Senior Trainer",
+                "BSc (Hons) in Computing",
+                LecturerType.FULL_TIME,
+                0);
+        Lecturer savedLecturer = repository.save(lecturer);
+        repository.deleteById(savedLecturer.getId());
+
+        Lecturer dbLecturer = entityManager.find(Lecturer.class, savedLecturer.getId());
+        assertNull(dbLecturer);
     }
 
     @Test
     void existsById() {
+        Lecturer lecturer = new Lecturer("Kasun Sampath",
+                "Senior Trainer",
+                "BSc (Hons) in Computing",
+                LecturerType.FULL_TIME,
+                0);
+        Lecturer savedLecturer = repository.save(lecturer);
+        boolean result = repository.existsById(savedLecturer.getId());
+
+        assertTrue(result);
     }
 
     @Test
