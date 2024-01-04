@@ -5,6 +5,7 @@ import lk.ijse.dep11.edupanel.repository.custom.LecturerRepository;
 import lk.ijse.dep11.edupanel.repository.custom.LinkedInRepository;
 import lk.ijse.dep11.edupanel.repository.custom.PictureRepository;
 import lk.ijse.dep11.edupanel.service.custom.LecturerService;
+import lk.ijse.dep11.edupanel.store.AppStore;
 import lk.ijse.dep11.edupanel.to.LecturerTO;
 import lk.ijse.dep11.edupanel.to.request.LecturerReqTO;
 import lk.ijse.dep11.edupanel.util.LecturerType;
@@ -20,33 +21,84 @@ public class LecturerServiceImpl implements LecturerService {
     private final PictureRepository pictureRepository = RepositoryFactory.getInstance()
             .getRepository(RepositoryFactory.RepositoryType.PICTURE);
 
+    public LecturerServiceImpl() {
+        lecturerRepository.setEntityManager(AppStore.getEntityManager());
+        linkedInRepository.setEntityManager(AppStore.getEntityManager());
+        pictureRepository.setEntityManager(AppStore.getEntityManager());
+    }
+
     @Override
     public LecturerTO saveLecturer(LecturerReqTO lecturerReqTO) {
-        return null;
+        AppStore.getEntityManager().getTransaction().begin();
+        try {
+
+            AppStore.getEntityManager().getTransaction().commit();
+            return null;
+        }catch (Throwable t){
+            AppStore.getEntityManager().getTransaction().rollback();
+            throw t;
+        }
     }
 
     @Override
     public void updateLecturerDetailsWithImage(LecturerReqTO lecturerReqTO) {
+        AppStore.getEntityManager().getTransaction().begin();
+        try {
 
+            AppStore.getEntityManager().getTransaction().commit();
+        }catch (Throwable t){
+            AppStore.getEntityManager().getTransaction().rollback();
+            throw t;
+        }
     }
 
     @Override
     public void updateLecturerDetailsWithoutImage(LecturerTO lecturerTO) {
+        AppStore.getEntityManager().getTransaction().begin();
+        try {
 
+            AppStore.getEntityManager().getTransaction().commit();
+        }catch (Throwable t){
+            AppStore.getEntityManager().getTransaction().rollback();
+            throw t;
+        }
     }
 
     @Override
     public void deleteLecturer(Integer lecturerId) {
+        AppStore.getEntityManager().getTransaction().begin();
+        try {
 
+            AppStore.getEntityManager().getTransaction().commit();
+        }catch (Throwable t){
+            AppStore.getEntityManager().getTransaction().rollback();
+            throw t;
+        }
     }
 
     @Override
     public LecturerTO getLecturerDetails(Integer lecturerId) {
-        return null;
+        AppStore.getEntityManager().getTransaction().begin();
+        try {
+
+            AppStore.getEntityManager().getTransaction().commit();
+            return null;
+        }catch (Throwable t){
+            AppStore.getEntityManager().getTransaction().rollback();
+            throw t;
+        }
     }
 
     @Override
     public List<LecturerTO> getLecturers(LecturerType type) {
-        return null;
+        AppStore.getEntityManager().getTransaction().begin();
+        try {
+
+            AppStore.getEntityManager().getTransaction().commit();
+            return null;
+        }catch (Throwable t){
+            AppStore.getEntityManager().getTransaction().rollback();
+            throw t;
+        }
     }
 }
