@@ -5,6 +5,7 @@ import lk.ijse.dep11.edupanel.WebRootConfig;
 import lk.ijse.dep11.edupanel.entity.Lecturer;
 import lk.ijse.dep11.edupanel.entity.LinkedIn;
 import lk.ijse.dep11.edupanel.to.LecturerTO;
+import lk.ijse.dep11.edupanel.to.request.LecturerReqTO;
 import lk.ijse.dep11.edupanel.util.LecturerType;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -53,5 +54,24 @@ class TransformerTest {
         assertEquals(lecturerTO.getQualifications(), lecturer.getQualifications());
         assertEquals(lecturerTO.getDisplayOrder(), lecturer.getDisplayOrder());
         assertEquals(lecturerTO.getLinkedin(), lecturer.getLinkedIn().getUrl());
+    }
+
+    @Test
+    void fromLecturerReqTO() {
+        LecturerReqTO lecturerReqTO = new LecturerReqTO("Thisara",
+                "Senior Trainer",
+                "BSc in Computing",
+                LecturerType.FULL_TIME,
+                10,
+                null,
+                "http://linkedin.com/thisara");
+        Lecturer lecturer = transformer.fromLecturerReqTO(lecturerReqTO);
+
+        assertEquals(lecturerReqTO.getName(), lecturer.getName());
+        assertEquals(lecturerReqTO.getDesignation(), lecturer.getDesignation());
+        assertEquals(lecturerReqTO.getQualifications(), lecturer.getQualifications());
+        assertEquals(lecturerReqTO.getType(), lecturer.getType());
+        assertEquals(lecturerReqTO.getDisplayOrder(), lecturer.getDisplayOrder());
+        assertEquals(lecturerReqTO.getLinkedin(), lecturer.getLinkedIn().getUrl());
     }
 }

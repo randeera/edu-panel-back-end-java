@@ -28,7 +28,16 @@ public class Transformer {
     }
 
     Lecturer fromLecturerReqTO(LecturerReqTO lecturerReqTO){
-        return mapper.map(lecturerReqTO, Lecturer.class);
+        Lecturer lecturer = mapper.map(lecturerReqTO, Lecturer.class);
+        if (lecturerReqTO.getLinkedin() == null){
+            lecturer.setLinkedIn(null);
+        }else{
+            lecturer.getLinkedIn().setLecturer(lecturer);
+        }
+        if (lecturerReqTO.getPicture() == null || lecturerReqTO.getPicture().isEmpty())
+                lecturer.setPicture(null);
+
+        return lecturer;
     }
 
     Lecturer fromLecturerTO(LecturerTO lecturerTO){
