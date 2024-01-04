@@ -41,6 +41,7 @@ class LecturerRepositoryImplTest {
                 LecturerType.FULL_TIME,
                 0);
         Lecturer savedLecturer = repository.save(lecturer);
+
         assertTrue(savedLecturer.getId() > 0);
         savedLecturer = entityManager.find(Lecturer.class, savedLecturer.getId());
         assertNotNull(savedLecturer);
