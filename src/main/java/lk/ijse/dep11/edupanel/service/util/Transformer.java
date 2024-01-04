@@ -1,5 +1,6 @@
 package lk.ijse.dep11.edupanel.service.util;
 
+import com.google.rpc.Help;
 import lk.ijse.dep11.edupanel.entity.Lecturer;
 import lk.ijse.dep11.edupanel.entity.LinkedIn;
 import lk.ijse.dep11.edupanel.to.LecturerTO;
@@ -16,8 +17,14 @@ public class Transformer {
     public Transformer() {
 //        mapper.typeMap(Lecturer.class, LecturerTO.class)
 //                .addMapping(lecturer -> lecturer.getLinkedIn().getUrl(), LecturerTO::setLinkedin);
+//        mapper.typeMap(LecturerTO.class, Lecturer.class)
+//                .addMapping(LecturerTO::getLinkedin, (lecturer, o) ->
+//                        lecturer.getLinkedIn().setUrl((String) o));
+
         mapper.typeMap(LinkedIn.class, String.class)
                 .setConverter(ctx -> ctx.getSource().getUrl());
+        mapper.typeMap(String.class, LinkedIn.class)
+                .setConverter(ctx -> new LinkedIn(null, ctx.getSource()));
     }
 
     Lecturer fromLecturerReqTO(LecturerReqTO lecturerReqTO){
@@ -25,7 +32,9 @@ public class Transformer {
     }
 
     Lecturer fromLecturerTO(LecturerTO lecturerTO){
-        return mapper.map(lecturerTO, Lecturer.class);
+        Lecturer lecturer = mapper.map(lecturerTO, Lecturer.class);
+        lecturer.getLinkedIn().setLecturer(lecturer);
+        return lecturer;
     }
 
     LecturerTO toLecturerTO(Lecturer lecturer){
