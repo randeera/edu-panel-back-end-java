@@ -32,6 +32,8 @@ public class LecturerServiceImpl implements LecturerService {
         AppStore.getEntityManager().getTransaction().begin();
         try {
 
+
+
             AppStore.getEntityManager().getTransaction().commit();
             return null;
         }catch (Throwable t){
