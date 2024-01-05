@@ -14,9 +14,17 @@ import java.io.Serializable;
 @Table(name = "picture")
 public class Picture implements SuperEntity {
     @Id
+    @Column(name = "lecturer_id")
+    private Integer lecturerId;
+    @MapsId
     @OneToOne
     @JoinColumn(name = "lecturer_id", referencedColumnName = "id")
     private Lecturer lecturer;
     @Column(name = "picture_path", nullable = false, length = 400)
     private String picturePath;
+
+    public Picture(Lecturer lecturer, String picturePath) {
+        this.lecturer = lecturer;
+        this.picturePath = picturePath;
+    }
 }

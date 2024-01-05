@@ -1,18 +1,13 @@
-package lk.ijse.dep11.edupanel.repository.custom.impl;
+package lk.ijse.dep11.edupanel.repository.impl;
 
-import lk.ijse.dep11.edupanel.WebAppConfig;
-import lk.ijse.dep11.edupanel.WebRootConfig;
 import lk.ijse.dep11.edupanel.entity.Lecturer;
-import lk.ijse.dep11.edupanel.repository.custom.LecturerRepository;
+import lk.ijse.dep11.edupanel.repository.LecturerRepository;
 import lk.ijse.dep11.edupanel.util.LecturerType;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
@@ -25,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 //@ContextConfiguration(classes = {WebAppConfig.class, WebRootConfig.class})
 //@WebAppConfiguration
 //@SpringJUnitConfig(classes = {WebRootConfig.class})
-@SpringJUnitWebConfig(classes = {WebAppConfig.class, WebRootConfig.class})
+@SpringBootTest
 @Transactional
 class LecturerRepositoryImplTest {
 
@@ -60,7 +55,7 @@ class LecturerRepositoryImplTest {
         savedLecturer.setName("Nuwan Ramindu");
         savedLecturer.setQualifications("DEP");
         savedLecturer.setType(LecturerType.VISITING);
-        repository.update(savedLecturer);
+        repository.save(savedLecturer);
 
         Lecturer actualLecturer = entityManager.find(Lecturer.class, savedLecturer.getId());
         assertEquals(savedLecturer, actualLecturer);
