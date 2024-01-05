@@ -1,9 +1,7 @@
 package lk.ijse.dep11.edupanel.api;
 
 import com.google.cloud.storage.Bucket;
-import lk.ijse.dep11.edupanel.service.ServiceFactory;
 import lk.ijse.dep11.edupanel.service.custom.LecturerService;
-import lk.ijse.dep11.edupanel.store.AppStore;
 import lk.ijse.dep11.edupanel.to.LecturerTO;
 import lk.ijse.dep11.edupanel.to.request.LecturerReqTO;
 import lk.ijse.dep11.edupanel.util.LecturerType;
@@ -20,10 +18,6 @@ import java.util.List;
 @CrossOrigin
 public class LecturerHttpController {
     @Autowired
-    private EntityManager em;
-    @Autowired
-    private Bucket bucket;
-
     private LecturerService lecturerService;
 
     @ResponseStatus(HttpStatus.CREATED)

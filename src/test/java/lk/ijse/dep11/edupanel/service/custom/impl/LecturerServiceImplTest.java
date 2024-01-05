@@ -1,48 +1,30 @@
 package lk.ijse.dep11.edupanel.service.custom.impl;
 
-import com.google.cloud.storage.Bucket;
 import lk.ijse.dep11.edupanel.WebAppConfig;
 import lk.ijse.dep11.edupanel.WebRootConfig;
-import lk.ijse.dep11.edupanel.entity.Lecturer;
-import lk.ijse.dep11.edupanel.entity.LinkedIn;
 import lk.ijse.dep11.edupanel.exception.AppException;
-import lk.ijse.dep11.edupanel.repository.custom.LecturerRepository;
-import lk.ijse.dep11.edupanel.repository.custom.LinkedInRepository;
-import lk.ijse.dep11.edupanel.repository.custom.PictureRepository;
-import lk.ijse.dep11.edupanel.service.ServiceFactory;
 import lk.ijse.dep11.edupanel.service.custom.LecturerService;
-import lk.ijse.dep11.edupanel.store.AppStore;
 import lk.ijse.dep11.edupanel.to.LecturerTO;
 import lk.ijse.dep11.edupanel.to.request.LecturerReqTO;
 import lk.ijse.dep11.edupanel.util.LecturerType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-
-import java.util.Optional;
+import javax.transaction.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assumptions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assumptions.assumingThat;
 
 @SpringJUnitWebConfig(classes = {WebAppConfig.class, WebRootConfig.class})
 //@ExtendWith(MockitoExtension.class)
+@Transactional
 class LecturerServiceImplTest {
 
+    @Autowired
     private LecturerService lecturerService;
-    @Autowired
-    private EntityManagerFactory emf;
-    @Autowired
-    private Bucket bucket;
-    private EntityManager entityManager;
 
 //    @Mock
 //    private LecturerRepository lecturerRepository;
@@ -54,10 +36,7 @@ class LecturerServiceImplTest {
     @BeforeEach
     void setUp() {
 
-        entityManager = emf.createEntityManager();
-        AppStore.setEntityManager(entityManager);
-        AppStore.setBucket(bucket);
-        lecturerService = ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.LECTURER);
+//        entityManager = emf.createEntityManager();
 
         // when(lecturerRepository.count()).thenReturn(10L);
 //        when(lecturerRepository.save(any(Lecturer.class))).thenAnswer(inv ->{
@@ -75,7 +54,7 @@ class LecturerServiceImplTest {
 
     @AfterEach
     void tearDown() {
-        entityManager.close();
+//        entityManager.close();
     }
 
     @Test
@@ -94,8 +73,8 @@ class LecturerServiceImplTest {
         assertEquals(lecturerReqTo.getQualifications(), lecturerTO.getQualifications());
         assertEquals(lecturerReqTo.getType(), lecturerTO.getType());
         assertEquals(lecturerReqTo.getDisplayOrder(), lecturerTO.getDisplayOrder());
-        assumingThat(lecturerReqTo.getLinkedin() != null, ()-> assertEquals(lecturerReqTo.getLinkedin(), lecturerTO.getLinkedin()));
-        assumingThat(lecturerReqTo.getLinkedin() == null, ()-> assertNull(lecturerTO.getLinkedin()));
+        assumingThat(lecturerReqTo.getLinkedin() != null, () -> assertEquals(lecturerReqTo.getLinkedin(), lecturerTO.getLinkedin()));
+        assumingThat(lecturerReqTo.getLinkedin() == null, () -> assertNull(lecturerTO.getLinkedin()));
 
 //        if (lecturerReqTo.getLinkedin() != null){
 //            assertEquals(lecturerReqTo.getLinkedin(), lecturerTO.getLinkedin());
@@ -113,8 +92,8 @@ class LecturerServiceImplTest {
                 "https://linkedin.com");
         LecturerTO lecturerTO = lecturerService.saveLecturer(lecturerReqTo);
         lecturerService.deleteLecturer(lecturerTO.getId());
-        assertThrows(AppException.class, ()-> lecturerService.getLecturerDetails(lecturerTO.getId()));
-        assertThrows(AppException.class, ()-> lecturerService.deleteLecturer(-100));
+        assertThrows(AppException.class, () -> lecturerService.getLecturerDetails(lecturerTO.getId()));
+        assertThrows(AppException.class, () -> lecturerService.deleteLecturer(-100));
     }
 
     @Test
@@ -127,7 +106,7 @@ class LecturerServiceImplTest {
         LecturerTO lecturerTO = lecturerService.saveLecturer(lecturerReqTo);
         LecturerTO lecturer = lecturerService.getLecturerDetails(lecturerTO.getId());
         assertEquals(lecturerTO, lecturer);
-        assertThrows(AppException.class, ()-> lecturerService.getLecturerDetails(-100));
+        assertThrows(AppException.class, () -> lecturerService.getLecturerDetails(-100));
     }
 
     @Test
@@ -135,7 +114,7 @@ class LecturerServiceImplTest {
         for (int i = 0; i < 10; i++) {
             LecturerReqTO lecturerReqTo = new LecturerReqTO("Amith",
                     "Associate Lecturer", "BSc, MSc",
-                    i < 5 ?  LecturerType.VISITING : LecturerType.FULL_TIME, 5,
+                    i < 5 ? LecturerType.VISITING : LecturerType.FULL_TIME, 5,
                     null,
                     "https://linkedin.com");
             lecturerService.saveLecturer(lecturerReqTo);

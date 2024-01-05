@@ -7,16 +7,19 @@ import lk.ijse.dep11.edupanel.entity.Picture;
 import lk.ijse.dep11.edupanel.to.LecturerTO;
 import lk.ijse.dep11.edupanel.to.request.LecturerReqTO;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class Transformer {
 
-    private final ModelMapper mapper = new ModelMapper();
+    private final ModelMapper mapper;
 
-    public Transformer() {
+    public Transformer(ModelMapper mapper) {
+        this.mapper = mapper;
 //        mapper.typeMap(Lecturer.class, LecturerTO.class)
 //                .addMapping(lecturer -> lecturer.getLinkedIn().getUrl(), LecturerTO::setLinkedin);
 //        mapper.typeMap(LecturerTO.class, Lecturer.class)

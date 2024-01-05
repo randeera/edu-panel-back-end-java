@@ -3,6 +3,7 @@ package lk.ijse.dep11.edupanel.repository;
 import lk.ijse.dep11.edupanel.entity.SuperEntity;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
@@ -19,6 +20,7 @@ public abstract class CrudRepositoryImpl<T extends SuperEntity, ID extends Seria
                 .getActualTypeArguments()[0]);
     }
 
+    @PersistenceContext
     @Override
     public void setEntityManager(EntityManager em) {
         this.em = em;

@@ -8,6 +8,7 @@ import lk.ijse.dep11.edupanel.to.LecturerTO;
 import lk.ijse.dep11.edupanel.to.request.LecturerReqTO;
 import lk.ijse.dep11.edupanel.util.LecturerType;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
@@ -16,7 +17,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringJUnitWebConfig(classes = {WebAppConfig.class, WebRootConfig.class})
 class TransformerTest {
 
-    private final Transformer transformer = new Transformer();
+    @Autowired
+    private Transformer transformer;
 
     @Test
     void toLecturerTO() {
