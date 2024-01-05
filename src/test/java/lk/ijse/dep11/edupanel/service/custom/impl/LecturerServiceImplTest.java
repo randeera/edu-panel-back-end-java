@@ -27,6 +27,8 @@ import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.*;
 import static org.mockito.Mockito.*;
@@ -51,11 +53,13 @@ class LecturerServiceImplTest {
 
     @BeforeEach
     void setUp() {
+
         entityManager = emf.createEntityManager();
         AppStore.setEntityManager(entityManager);
         AppStore.setBucket(bucket);
         lecturerService = ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.LECTURER);
 
+        // when(lecturerRepository.count()).thenReturn(10L);
 //        when(lecturerRepository.save(any(Lecturer.class))).thenAnswer(inv ->{
 //            Lecturer lecturer = inv.getArgument(0);
 //            lecturer.setId(1);
