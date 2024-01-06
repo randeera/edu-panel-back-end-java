@@ -158,10 +158,8 @@ public class LecturerServiceImpl implements LecturerService {
     public List<LecturerTO> getLecturers(LecturerType type) {
 
         List<Lecturer> lecturerList;
-        if (type == LecturerType.FULL_TIME) {
-            lecturerList = lecturerRepository.findFullTimeLecturers();
-        } else if (type == LecturerType.VISITING) {
-            lecturerList = lecturerRepository.findVisitingLectures();
+        if (type != null){
+            lecturerList = lecturerRepository.findLecturersByType(type);
         } else {
             lecturerList = lecturerRepository.findAll();
         }
@@ -173,15 +171,5 @@ public class LecturerServiceImpl implements LecturerService {
             return lecturerTO;
         }).collect(Collectors.toList());
 
-    }
-
-    private void updateLinkedIn(Lecturer currentLecturer, Lecturer newLecturer) {
-        if (newLecturer.getLinkedIn() != null && currentLecturer.getLinkedIn() == null) {
-            linkedInRepository.save(newLecturer.getLinkedIn());
-        } else if (newLecturer.getLinkedIn() == null && currentLecturer.getLinkedIn() != null) {
-            linkedInRepository.deleteById(currentLecturer.getId());
-        } else if (newLecturer.getLinkedIn() != null) {
-            linkedInRepository.save(newLecturer.getLinkedIn());
-        }
     }
 }
