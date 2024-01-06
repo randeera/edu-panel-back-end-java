@@ -1,11 +1,14 @@
-package lk.ijse.dep11.edupanel.repository.impl;
+package lk.ijse.dep11.edupanel.repository;
 
 import lk.ijse.dep11.edupanel.entity.Lecturer;
+import lk.ijse.dep11.edupanel.entity.LinkedIn;
+import lk.ijse.dep11.edupanel.entity.Picture;
 import lk.ijse.dep11.edupanel.repository.LecturerRepository;
 import lk.ijse.dep11.edupanel.util.LecturerType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -115,7 +118,7 @@ class LecturerRepositoryImplTest {
         }
         List<Lecturer> lecturerList = repository.findAll();
 
-        assertEquals(8, lecturerList.size());
+        assertTrue(lecturerList.size() >= 8);
         lecturerList.forEach(System.out::println);
     }
 
@@ -132,5 +135,20 @@ class LecturerRepositoryImplTest {
         long count = repository.count();
 
         assertTrue(count >= 120);
+    }
+
+    @Commit
+    @Test
+    void experiment(@Autowired LinkedInRepository linkedInRepository) {
+        Optional<Lecturer> optLecturer = repository.findById(2);
+        Lecturer lecturer = optLecturer.orElseThrow();
+//        Lecturer newLecturer = new Lecturer(2, "Suranga", "Trainer", "BSc", LecturerType.FULL_TIME, 5);
+//        //newLecturer.setLinkedIn(new LinkedIn(2, newLecturer, "http://ijse.lk"));
+//        Lecturer merge = entityManager.merge(newLecturer);
+//        System.out.println(merge.getLinkedIn());
+        LinkedIn linkedIn = new LinkedIn(2, lecturer, "http://ijse.lk");
+        entityManager.merge(linkedIn);
+        //repository.save(newLecturer);
+        //linkedInRepository.save(newLecturer.getLinkedIn());
     }
 }

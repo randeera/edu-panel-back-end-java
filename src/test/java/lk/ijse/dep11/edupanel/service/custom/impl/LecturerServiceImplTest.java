@@ -136,4 +136,5 @@ class LecturerServiceImplTest {
         LecturerTO lecturer = lecturerService.getLecturerDetails(lecturerTO.getId());
         assertEquals(lecturerTO, lecturer);
     }
+
 }

@@ -21,6 +21,8 @@ import java.io.InputStream;
 public class AppInitializer implements WebMvcConfigurer {
 
     public static void main(String[] args) {
+        System.setProperty("application.title", "EduPanel");
+        System.setProperty("application.version", "v1.0.0");
         SpringApplication.run(AppInitializer.class, args);
     }
 
@@ -39,7 +41,7 @@ public class AppInitializer implements WebMvcConfigurer {
                 .setStorageBucket("edupanel-efb2b.appspot.com")
                 .build();
 
-        FirebaseApp.initializeApp(options);
+        if (FirebaseApp.getApps().isEmpty()) FirebaseApp.initializeApp(options);
         return StorageClient.getInstance().bucket();
     }
 
